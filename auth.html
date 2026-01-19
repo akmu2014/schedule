@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign in</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f172a;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --border:rgba(148,163,184,.2);
+      --primary:#2563eb;
+      --primaryHover:#1d4ed8;
+      --danger:#ef4444;
+      --ok:#22c55e;
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(37,99,235,.25), transparent 50%),
+                  radial-gradient(900px 600px at 80% 30%, rgba(34,197,94,.18), transparent 45%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .wrap{
+      width:100%;
+      max-width:420px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(37,99,235,1), rgba(34,197,94,1));
+      box-shadow: var(--shadow);
+    }
+    h1{font-size:22px;margin:0}
+    .subtitle{color:var(--muted); margin:6px 0 18px; font-size:14px}
+    .card{
+      background: rgba(15,23,42,.9);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:22px;
+      backdrop-filter: blur(10px);
+    }
+    label{display:block; font-size:13px; color:var(--muted); margin:12px 0 6px}
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.55);
+      color:var(--text);
+      outline:none;
+      font-size:15px;
+    }
+    input:focus{border-color: rgba(37,99,235,.7)}
+    .btn{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:0;
+      background: var(--primary);
+      color:white;
+      font-weight:600;
+      font-size:15px;
+      cursor:pointer;
+      margin-top:14px;
+    }
+    .btn:hover{background: var(--primaryHover)}
+    .btn.secondary{
+      background: transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    .row{
+      display:flex; gap:10px;
+    }
+    .row .btn{margin-top:0}
+    .links{
+      margin-top:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+    }
+    a{color:#93c5fd; text-decoration:none}
+    a:hover{text-decoration:underline}
+    .msg{
+      margin-top:14px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(2,6,23,.35);
+      font-size:14px;
+      white-space:pre-wrap;
+    }
+    .msg.ok{border-color: rgba(34,197,94,.35)}
+    .msg.err{border-color: rgba(239,68,68,.35)}
+    .hidden{display:none}
+    .foot{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1 id="pageTitle">Sign in</h1>
+        <div class="subtitle" id="pageSubtitle">
+          Use the email provided by your administrator.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <!-- LOGIN VIEW -->
+      <div id="view-login">
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="name@example.com" autocomplete="email" />
+
+        <label>Password</label>
+        <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" />
+
+        <button class="btn" onclick="login()">Sign in</button>
+
+        <div class="links">
+          <a href="#" onclick="goForgot(); return false;">Forgot password?</a>
+          <a href="#" onclick="checkSession(); return false;">Check session</a>
+        </div>
+      </div>
+
+      <!-- FORGOT VIEW -->
+      <div id="view-forgot" class="hidden">
+        <div class="subtitle" style="margin-top:0">
+          Forgot password?<br/>
+          Enter the email address associated with your account, and we'll send you a link to reset your password.
+        </div>
+
+        <label>Email address</label>
+        <input id="forgotEmail" type="email" placeholder="name@example.com" autocomplete="email" />
+
+        <button class="btn" onclick="sendReset()">SEND RESET LINK</button>
+
+        <button class="btn secondary" onclick="goLogin()" style="margin-top:10px;">Back to sign in</button>
+      </div>
+
+      <!-- RESET PASSWORD VIEW (when user returns via email link) -->
+      <div id="view-reset" class="hidden">
+        <div class="subtitle" style="margin-top:0">
+          Set a new password
+        </div>
+
+        <label>New password</label>
+        <input id="newPassword" type="password" placeholder="New password (min 6 chars)" autocomplete="new-password" />
+
+        <label>Confirm new password</label>
+        <input id="newPassword2" type="password" placeholder="Confirm new password" autocomplete="new-password" />
+
+        <button class="btn" onclick="setNewPassword()">Update password</button>
+
+        <button class="btn secondary" onclick="goLogin()" style="margin-top:10px;">Back to sign in</button>
+      </div>
+
+      <div id="msg" class="msg hidden"></div>
+    </div>
+
+    <div class="foot">
+      If you don’t have access, contact the administrator.
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ✅ Replace these with your real values
+    const SUPABASE_URL = "https://twbdwcfdtvujnktgkpnq.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_x7S76CJrNfFjOSj-EFAATw_hGHY76eV";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const el = (id) => document.getElementById(id);
+    const msgBox = el("msg");
+
+    function showMsg(text, kind="") {
+      msgBox.classList.remove("hidden", "ok", "err");
+      if (kind) msgBox.classList.add(kind);
+      msgBox.textContent = text;
+    }
+    function clearMsg() {
+      msgBox.classList.add("hidden");
+      msgBox.textContent = "";
+      msgBox.classList.remove("ok","err");
+    }
+
+    function showView(which) {
+      clearMsg();
+      el("view-login").classList.add("hidden");
+      el("view-forgot").classList.add("hidden");
+      el("view-reset").classList.add("hidden");
+
+      el("pageTitle").textContent = "Sign in";
+      el("pageSubtitle").textContent = "Use the email provided by your administrator.";
+
+      if (which === "login") el("view-login").classList.remove("hidden");
+      if (which === "forgot") {
+        el("pageTitle").textContent = "Reset password";
+        el("pageSubtitle").textContent = "We’ll email you a reset link.";
+        el("view-forgot").classList.remove("hidden");
+      }
+      if (which === "reset") {
+        el("pageTitle").textContent = "Set new password";
+        el("pageSubtitle").textContent = "Choose a new password to finish setup.";
+        el("view-reset").classList.remove("hidden");
+      }
+    }
+
+    function goForgot() {
+      el("forgotEmail").value = el("loginEmail").value || "";
+      showView("forgot");
+    }
+    function goLogin() { showView("login"); }
+
+    async function login() {
+      clearMsg();
+      const email = el("loginEmail").value.trim();
+      const password = el("loginPassword").value;
+
+      if (!email || !password) return showMsg("Please enter both email and password.", "err");
+
+      showMsg("Signing in...");
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) return showMsg("Sign in failed: " + error.message, "err");
+
+      showMsg("Signed in as: " + data.user.email, "ok");
+
+      // Next step (later): redirect based on role
+      // location.href = "student.html" or "teacher.html"
+    }
+
+    async function sendReset() {
+      clearMsg();
+      const email = el("forgotEmail").value.trim();
+      if (!email) return showMsg("Please enter your email address.", "err");
+
+      // IMPORTANT: this must match an allowed redirect URL in Supabase Auth URL Configuration
+      const redirectTo = window.location.origin + window.location.pathname; // .../auth.html
+
+      showMsg("Sending reset link...");
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+
+      if (error) return showMsg("Could not send reset link: " + error.message, "err");
+
+      showMsg(
+        "✅ Reset link sent.\n\nCheck your email. Open the link to set your password.",
+        "ok"
+      );
+    }
+
+    async function setNewPassword() {
+      clearMsg();
+      const p1 = el("newPassword").value;
+      const p2 = el("newPassword2").value;
+
+      if (!p1 || p1.length < 6) return showMsg("Password must be at least 6 characters.", "err");
+      if (p1 !== p2) return showMsg("Passwords do not match.", "err");
+
+      showMsg("Updating password...");
+
+      const { data, error } = await sb.auth.updateUser({ password: p1 });
+      if (error) return showMsg("Password update failed: " + error.message, "err");
+
+      showMsg("✅ Password updated. You can now sign in.", "ok");
+      // Optional: send them back to login after success (small delay)
+      setTimeout(() => showView("login"), 1200);
+    }
+
+    async function checkSession() {
+      const { data, error } = await sb.auth.getSession();
+      if (error) return showMsg("Session error: " + error.message, "err");
+      if (data.session) {
+        showMsg("Logged in as: " + data.session.user.email + "\nUser ID: " + data.session.user.id, "ok");
+      } else {
+        showMsg("Not logged in.", "");
+      }
+    }
+
+    // Detect password recovery flow:
+    // When user clicks reset link, Supabase sets session and onAuthStateChange fires.
+    sb.auth.onAuthStateChange((event, session) => {
+      // Depending on Supabase behavior, event may be PASSWORD_RECOVERY or SIGNED_IN after recovery
+      if (event === "PASSWORD_RECOVERY") showView("reset");
+      // If they land with a recovery session, show reset view
+      if (session && window.location.hash.includes("type=recovery")) showView("reset");
+    });
+
+    // On load: if URL indicates recovery, show reset screen; else show login
+    if (window.location.hash.includes("type=recovery")) showView("reset");
+    else showView("login");
+  </script>
+</body>
+</html>
