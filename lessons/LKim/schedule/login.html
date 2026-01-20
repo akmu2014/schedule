@@ -343,7 +343,7 @@
       if (!email) return showMsg("Please enter your email address.", "err");
 
       // Must be an allowed Redirect URL in Supabase Auth URL Configuration
-      const redirectTo = window.location.origin + window.location.pathname; // .../schedule/login.html
+      const redirectTo = "https://schedule.monumentvibe.com/lessons/LKim/schedule/login.html";
 
       showMsg("Sending reset link...");
       const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
@@ -387,4 +387,5 @@
   </script>
 </body>
 </html>
+
 
