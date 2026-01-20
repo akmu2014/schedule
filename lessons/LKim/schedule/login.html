@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kim Piano Lessons - Sign in</title>
+
+  <style>
+    :root{
+      --card-bg: rgba(255,255,255,0.92);
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: rgba(15,23,42,0.12);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 16px;
+
+      --primary:#2563eb;
+      --primary-hover:#1d4ed8;
+      --danger:#b91c1c;
+      --ok:#166534;
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      /* Background image */
+      background-image:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url("../../../Images/piano.jpeg");
+
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 24px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width: 420px;
+    }
+
+    .card{
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 22px 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      margin-bottom: 10px;
+      text-align:center;
+    }
+
+    .brandTitle{
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+      margin: 0;
+    }
+
+    .brandSub{
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    h2{
+      margin: 16px 0 12px;
+      font-size: 28px;
+      letter-spacing: -0.4px;
+      text-align:center;
+    }
+
+    .topLink{
+      text-align:center;
+      margin-top: 4px;
+      font-size: 14px;
+    }
+    .topLink a{
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .topLink a:hover{ text-decoration: underline; }
+
+    label{
+      display:block;
+      margin: 12px 0 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,0.18);
+      outline: none;
+      font-size: 15px;
+      background: rgba(255,255,255,0.9);
+    }
+    input:focus{
+      border-color: rgba(37,99,235,0.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+    }
+
+    .pwRow{
+      position: relative;
+    }
+    .togglePw{
+      position:absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border:0;
+      background: transparent;
+      cursor:pointer;
+      padding: 6px;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .btn{
+      width:100%;
+      margin-top: 14px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 0;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      letter-spacing: .5px;
+      font-size: 14px;
+      cursor:pointer;
+      text-transform: uppercase;
+    }
+    .btn:hover{ background: var(--primary-hover); }
+
+    .btn.secondary{
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(15,23,42,0.16);
+      text-transform:none;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .btn.secondary:hover{
+      background: rgba(2,6,23,0.04);
+    }
+
+    .links{
+      margin-top: 16px;
+      text-align:center;
+      font-size: 14px;
+    }
+    .links a{
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .links a:hover{ text-decoration: underline; }
+
+    .msg{
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,0.14);
+      background: rgba(2,6,23,0.03);
+      font-size: 14px;
+      white-space: pre-wrap;
+      line-height: 1.35;
+    }
+    .msg.ok{ border-color: rgba(34,197,94,0.35); color: var(--ok); background: rgba(34,197,94,0.08); }
+    .msg.err{ border-color: rgba(239,68,68,0.35); color: var(--danger); background: rgba(239,68,68,0.06); }
+    .hidden{ display:none; }
+
+    .footer{
+      margin-top: 12px;
+      color: rgba(255,255,255,0.8);
+      text-align:center;
+      font-size: 12px;
+    }
+
+    /* Small screens */
+    @media (max-width: 420px){
+      .card{ padding: 18px; }
+      h2{ font-size: 26px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="brand">
+        <p class="brandTitle">🎹 Kim Piano Lessons</p>
+        <p class="brandSub">Sign in with the email you provided to Mrs. Kim.</p>
+      </div>
+
+      <!-- LOGIN VIEW -->
+      <div id="view-login">
+        <h2>Sign In</h2>
+
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="Email" autocomplete="email" />
+
+        <label>Password</label>
+        <div class="pwRow">
+          <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" />
+          <button class="togglePw" onclick="togglePassword('loginPassword'); return false;" aria-label="Show password">👁️</button>
+        </div>
+
+        <button class="btn" onclick="login()">NEXT</button>
+
+        <div class="links">
+          <a href="#" onclick="goForgot(); return false;">Forgot password?</a>
+        </div>
+      </div>
+
+      <!-- FORGOT VIEW -->
+      <div id="view-forgot" class="hidden">
+        <h2>Forgot password?</h2>
+        <div style="color:var(--muted); font-size:14px; line-height:1.35; margin-bottom:10px; text-align:center;">
+          Enter the email address associated with your account, and we'll send you a link to reset your password.
+        </div>
+
+        <label>Email address</label>
+        <input id="forgotEmail" type="email" placeholder="Email address" autocomplete="email" />
+
+        <button class="btn" onclick="sendReset()">SEND RESET LINK</button>
+        <button class="btn secondary" onclick="goLogin()" style="margin-top:10px;">Back to sign in</button>
+      </div>
+
+      <!-- RESET VIEW -->
+      <div id="view-reset" class="hidden">
+        <h2>Set new password</h2>
+        <div style="color:var(--muted); font-size:14px; line-height:1.35; margin-bottom:10px; text-align:center;">
+          Choose a new password to finish setup.
+        </div>
+
+        <label>New password</label>
+        <div class="pwRow">
+          <input id="newPassword" type="password" placeholder="New password (min 6 chars)" autocomplete="new-password" />
+          <button class="togglePw" onclick="togglePassword('newPassword'); return false;" aria-label="Show password">👁️</button>
+        </div>
+
+        <label>Confirm new password</label>
+        <div class="pwRow">
+          <input id="newPassword2" type="password" placeholder="Confirm new password" autocomplete="new-password" />
+          <button class="togglePw" onclick="togglePassword('newPassword2'); return false;" aria-label="Show password">👁️</button>
+        </div>
+
+        <button class="btn" onclick="setNewPassword()">UPDATE PASSWORD</button>
+        <button class="btn secondary" onclick="goLogin()" style="margin-top:10px;">Back to sign in</button>
+      </div>
+
+      <div id="msg" class="msg hidden"></div>
+    </div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ✅ Replace these with your real values
+    const SUPABASE_URL = "https://twbdwcfdtvujnktgkpnq.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_x7S76CJrNfFjOSj-EFAATw_hGHY76eV";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const el = (id) => document.getElementById(id);
+    const msgBox = el("msg");
+
+    function showMsg(text, kind="") {
+      msgBox.classList.remove("hidden", "ok", "err");
+      if (kind) msgBox.classList.add(kind);
+      msgBox.textContent = text;
+    }
+    function clearMsg() {
+      msgBox.classList.add("hidden");
+      msgBox.textContent = "";
+      msgBox.classList.remove("ok","err");
+    }
+
+    function showView(which) {
+      clearMsg();
+      el("view-login").classList.add("hidden");
+      el("view-forgot").classList.add("hidden");
+      el("view-reset").classList.add("hidden");
+
+      if (which === "login") el("view-login").classList.remove("hidden");
+      if (which === "forgot") el("view-forgot").classList.remove("hidden");
+      if (which === "reset") el("view-reset").classList.remove("hidden");
+    }
+
+    function goForgot() {
+      el("forgotEmail").value = el("loginEmail").value || "";
+      showView("forgot");
+    }
+    function goLogin() {
+      el("loginPassword").value = "";
+      showView("login");
+    }
+
+    function togglePassword(inputId){
+      const input = el(inputId);
+      input.type = (input.type === "password") ? "text" : "password";
+    }
+
+    async function login() {
+      clearMsg();
+      const email = el("loginEmail").value.trim();
+      const password = el("loginPassword").value;
+
+      if (!email || !password) return showMsg("Please enter both email and password.", "err");
+
+      showMsg("Signing in...");
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) return showMsg("Sign in failed: " + error.message, "err");
+
+      showMsg("✅ Signed in as: " + data.user.email, "ok");
+
+      // Next step later: redirect based on role (student vs teacher)
+      // e.g., fetch role from profiles then location.href = "student.html";
+    }
+
+    async function sendReset() {
+      clearMsg();
+      const email = el("forgotEmail").value.trim();
+      if (!email) return showMsg("Please enter your email address.", "err");
+
+      // Must be an allowed Redirect URL in Supabase Auth URL Configuration
+      const redirectTo = "https://schedule.monumentvibe.com/lessons/LKim/schedule/login.html";
+
+      showMsg("Sending reset link...");
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+
+      if (error) return showMsg("Could not send reset link: " + error.message, "err");
+
+      showMsg("✅ Reset link sent.\nCheck your email and open the link to set your password.", "ok");
+    }
+
+    async function setNewPassword() {
+      clearMsg();
+      const p1 = el("newPassword").value;
+      const p2 = el("newPassword2").value;
+
+      if (!p1 || p1.length < 6) return showMsg("Password must be at least 6 characters.", "err");
+      if (p1 !== p2) return showMsg("Passwords do not match.", "err");
+
+      showMsg("Updating password...");
+      const { error } = await sb.auth.updateUser({ password: p1 });
+      if (error) return showMsg("Password update failed: " + error.message, "err");
+
+      showMsg("✅ Password updated. You can now sign in.", "ok");
+      setTimeout(() => showView("login"), 1200);
+    }
+
+	// Detect invite OR password reset flow
+	function isPasswordSetupFlow() {
+ 	 const h = window.location.hash || "";
+ 	 return h.includes("type=recovery") || h.includes("type=invite");
+	}
+
+
+    // On load
+	if (isPasswordSetupFlow()) showView("reset");
+	else showView("login");
+
+
+    // Also listen for auth changes
+	sb.auth.onAuthStateChange((event, session) => {
+	  if (event === "PASSWORD_RECOVERY") showView("reset");
+	  if (session && isPasswordSetupFlow()) showView("reset");
+	});
+
+  </script>
+</body>
+</html>
